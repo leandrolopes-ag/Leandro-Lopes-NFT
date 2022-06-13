@@ -15,14 +15,20 @@ contract LeandroLopes721 is
     ERC721Burnable,
     AccessControl
 {
+    /// minter role hash
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
+    /// address of OpenSea proxy registry contract
     address public immutable proxyRegistryAddress;
+
+    // base URI for token json files
+    string internal _baseUri;
 
     /**
         Contract constructor
         @param _name token name
         @param _symbol token symbol
+        @param _uri default base token URI
         @param _openseaProxy addres of OpenSea proxy on given network
      */
     constructor(
@@ -86,8 +92,6 @@ contract LeandroLopes721 is
         return ERC721.isApprovedForAll(owner, operator);
     }
 
-    string internal _baseUri;
-
     function _baseURI() internal view override returns (string memory) {
         return _baseUri;
     }
@@ -96,6 +100,10 @@ contract LeandroLopes721 is
         return _baseURI();
     }
 
+    /**
+        Update base token URI if needed
+        @param _newUri new base token URI
+     */
     function updateBaseUri(string memory _newUri)
         external
         onlyRole(DEFAULT_ADMIN_ROLE)
