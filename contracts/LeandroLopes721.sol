@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.14;
+pragma solidity =0.8.16;
 
-import "./ERC721.sol";
-import "./ERC721Enumerable.sol";
-import "./ERC721Burnable.sol";
-import "./AccessControl.sol";
+import "./base/ERC721.sol";
+import "./base/ERC721Enumerable.sol";
+import "./base/ERC721Burnable.sol";
+import "./base//AccessControl.sol";
 import "./OpenSeaIntegration.sol";
 
 // ERC721 token for Leandro Lopes
@@ -26,19 +26,22 @@ contract LeandroLopes721 is
 
     /**
         Contract constructor
-        @param _name token name
-        @param _symbol token symbol
-        @param _uri default base token URI
-        @param _openseaProxy addres of OpenSea proxy on given network
+        @param name_ token name
+        @param symbol_ token symbol
+        @param uri_ default base token URI
+        @param openseaProxy_ address of OpenSea proxy on given network
      */
     constructor(
-        string memory _name,
-        string memory _symbol,
-        string memory _uri,
-        address _openseaProxy
-    ) ERC721(_name, _symbol) {
-        proxyRegistryAddress = _openseaProxy;
-        _baseUri = _uri;
+        string memory name_,
+        string memory symbol_,
+        string memory uri_,
+        address openseaProxy_
+    ) ERC721(name_, symbol_) {
+        // sanity checks
+        if (openseaProxy_ == address(0)) revert();
+
+        proxyRegistryAddress = openseaProxy_;
+        _baseUri = uri_;
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
     }
@@ -46,7 +49,7 @@ contract LeandroLopes721 is
     /**
         Mint new NFT token, only for contract Owner
         @param to address of NFT owner
-        @param tokenId unique token indetificator
+        @param tokenId unique token identifier
      */
     function safeMint(address to, uint256 tokenId)
         public
