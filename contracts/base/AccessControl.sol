@@ -4,9 +4,9 @@
 // OpenZeppelin Contracts (last updated v4.6.0) (access/AccessControl.sol)
 
 pragma solidity ^0.8.0;
-import "./IAccessControl.sol";
+import "../interfaces/IAccessControl.sol";
 import "./ERC165.sol";
-import "./Strings.sol";
+import "../libraries/Strings.sol";
 
 /**
  * @dev Contract module that allows children to implement role-based access
