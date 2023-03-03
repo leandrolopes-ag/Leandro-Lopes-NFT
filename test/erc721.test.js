@@ -18,7 +18,7 @@ describe("NFT721 token test", function () {
 
     beforeEach(async function () {
         proxy = await OSproxy.new(user3, openSea); //user3 approves openSea
-        token = await LLtoken.new("name", "sybol", "http://base.token.uri/", proxy.address, { from: owner });
+        token = await LLtoken.new("name", "symbol", "http://base.token.uri/", proxy.address, { from: owner });
     })
 
     describe('safeMint:', function () {
